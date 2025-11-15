@@ -7,12 +7,14 @@ from src.use_cases.commands.create_user_command import (
     CreateUserCommand,
     CreateUserCommandHandler,
 )
+from src.infrastructure.in_memory.users_repository import InMemoryUsersRepository
 
 users_router = APIRouter()
+users_repository = InMemoryUsersRepository()
 
 
 def _get_create_user_command_handler() -> CreateUserCommandHandler:
-    return CreateUserCommandHandler()
+    return CreateUserCommandHandler(users_repository)
 
 
 @users_router.post("/", status_code=CREATED)
